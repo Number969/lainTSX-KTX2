@@ -94,7 +94,20 @@ export function extract_frame(
     const frame_texture = atlas.clone();
     frame_texture.repeat.set(frame_w / atlas_w, frame_h / atlas_h);
     frame_texture.offset.x = x / atlas_w;
-    frame_texture.offset.y = 1 - frame_h / atlas_h - y / atlas_h;
+    // Handle vertical orientation differences robustly.
+    // For typical image-based atlases (atlas.flipY !== false) use the original repeat/offset.
+    // For KTX2/Basis (atlas.flipY === false) the texture rows are inverted relative to the PNG atlases,
+    // so flip the extracted frame vertically by using a negative repeat.y and adjusted offset.
+    if (typeof atlas.flipY === "boolean" && atlas.flipY === false) {
+        // map v in [0,1] -> pixels y..y+frame_h while flipping vertically
+        frame_texture.repeat.y = -frame_h / atlas_h;
+        frame_texture.offset.y = (y + frame_h) / atlas_h;
+        frame_texture.flipY = false;
+    } else {
+        frame_texture.repeat.y = frame_h / atlas_h;
+        frame_texture.offset.y = 1 - frame_h / atlas_h - y / atlas_h;
+        frame_texture.flipY = true;
+    }
     frame_texture.needsUpdate = true;
 
     return frame_texture;

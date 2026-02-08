@@ -1,40 +1,41 @@
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import sprite_atlas_json from "./static/json/sprite_atlas.json";
 import model_crystal from "./static/models/crystal.glb";
 import model_triangular_prism from "./static/models/cut_cube.glb";
 import model_mirror from "./static/models/gate_mirror.glb";
 import model_gold_node from "./static/models/gold_node.glb";
-import sprite_atlas from "./static/sprites/game.png";
-import lain_frames_0 from "./static/sprites/lain/lain_frames_0.png";
-import lain_frames_1 from "./static/sprites/lain/lain_frames_1.png";
-import lain_frames_2 from "./static/sprites/lain/lain_frames_2.png";
-import lain_frames_3 from "./static/sprites/lain/lain_frames_3.png";
-import lain_frames_4 from "./static/sprites/lain/lain_frames_4.png";
-import lain_frames_5 from "./static/sprites/lain/lain_frames_5.png";
-import lain_frames_6 from "./static/sprites/lain/lain_frames_6.png";
-import lain_frames_7 from "./static/sprites/lain/lain_frames_7.png";
-import lain_frames_8 from "./static/sprites/lain/lain_frames_8.png";
-import lain_frames_9 from "./static/sprites/lain/lain_frames_9.png";
-import lain_frames_10 from "./static/sprites/lain/lain_frames_10.png";
-import lain_frames_11 from "./static/sprites/lain/lain_frames_11.png";
-import lain_frames_12 from "./static/sprites/lain/lain_frames_12.png";
-import lain_frames_13 from "./static/sprites/lain/lain_frames_13.png";
-import lain_frames_14 from "./static/sprites/lain/lain_frames_14.png";
-import lain_frames_15 from "./static/sprites/lain/lain_frames_15.png";
-import lain_frames_16 from "./static/sprites/lain/lain_frames_16.png";
-import lain_frames_17 from "./static/sprites/lain/lain_frames_17.png";
-import lain_frames_18 from "./static/sprites/lain/lain_frames_18.png";
-import lain_frames_19 from "./static/sprites/lain/lain_frames_19.png";
-import lain_frames_20 from "./static/sprites/lain/lain_frames_20.png";
-import lain_frames_21 from "./static/sprites/lain/lain_frames_21.png";
-import lain_frames_22 from "./static/sprites/lain/lain_frames_22.png";
-import lain_frames_23 from "./static/sprites/lain/lain_frames_23.png";
-import lain_frames_24 from "./static/sprites/lain/lain_frames_24.png";
-import lain_frames_25 from "./static/sprites/lain/lain_frames_25.png";
-import lain_talk_frames_0 from "./static/sprites/lain/lain_talk_frames_0.png";
-import lain_talk_frames_1 from "./static/sprites/lain/lain_talk_frames_1.png";
-import lain_talk_frames_2 from "./static/sprites/lain/lain_talk_frames_2.png";
+const sprite_atlas = new URL("./static/sprites/game.ktx2", import.meta.url).href;
+const lain_frames_0 = new URL("./static/sprites/lain/lain_frames_0.ktx2", import.meta.url).href;
+const lain_frames_1 = new URL("./static/sprites/lain/lain_frames_1.ktx2", import.meta.url).href;
+const lain_frames_2 = new URL("./static/sprites/lain/lain_frames_2.ktx2", import.meta.url).href;
+const lain_frames_3 = new URL("./static/sprites/lain/lain_frames_3.ktx2", import.meta.url).href;
+const lain_frames_4 = new URL("./static/sprites/lain/lain_frames_4.ktx2", import.meta.url).href;
+const lain_frames_5 = new URL("./static/sprites/lain/lain_frames_5.ktx2", import.meta.url).href;
+const lain_frames_6 = new URL("./static/sprites/lain/lain_frames_6.ktx2", import.meta.url).href;
+const lain_frames_7 = new URL("./static/sprites/lain/lain_frames_7.ktx2", import.meta.url).href;
+const lain_frames_8 = new URL("./static/sprites/lain/lain_frames_8.ktx2", import.meta.url).href;
+const lain_frames_9 = new URL("./static/sprites/lain/lain_frames_9.ktx2", import.meta.url).href;
+const lain_frames_10 = new URL("./static/sprites/lain/lain_frames_10.ktx2", import.meta.url).href;
+const lain_frames_11 = new URL("./static/sprites/lain/lain_frames_11.ktx2", import.meta.url).href;
+const lain_frames_12 = new URL("./static/sprites/lain/lain_frames_12.ktx2", import.meta.url).href;
+const lain_frames_13 = new URL("./static/sprites/lain/lain_frames_13.ktx2", import.meta.url).href;
+const lain_frames_14 = new URL("./static/sprites/lain/lain_frames_14.ktx2", import.meta.url).href;
+const lain_frames_15 = new URL("./static/sprites/lain/lain_frames_15.ktx2", import.meta.url).href;
+const lain_frames_16 = new URL("./static/sprites/lain/lain_frames_16.ktx2", import.meta.url).href;
+const lain_frames_17 = new URL("./static/sprites/lain/lain_frames_17.ktx2", import.meta.url).href;
+const lain_frames_18 = new URL("./static/sprites/lain/lain_frames_18.ktx2", import.meta.url).href;
+const lain_frames_19 = new URL("./static/sprites/lain/lain_frames_19.ktx2", import.meta.url).href;
+const lain_frames_20 = new URL("./static/sprites/lain/lain_frames_20.ktx2", import.meta.url).href;
+const lain_frames_21 = new URL("./static/sprites/lain/lain_frames_21.ktx2", import.meta.url).href;
+const lain_frames_22 = new URL("./static/sprites/lain/lain_frames_22.ktx2", import.meta.url).href;
+const lain_frames_23 = new URL("./static/sprites/lain/lain_frames_23.ktx2", import.meta.url).href;
+const lain_frames_24 = new URL("./static/sprites/lain/lain_frames_24.ktx2", import.meta.url).href;
+const lain_frames_25 = new URL("./static/sprites/lain/lain_frames_25.ktx2", import.meta.url).href;
+const lain_talk_frames_0 = new URL("./static/sprites/lain/lain_talk_frames_0.ktx2", import.meta.url).href;
+const lain_talk_frames_1 = new URL("./static/sprites/lain/lain_talk_frames_1.ktx2", import.meta.url).href;
+const lain_talk_frames_2 = new URL("./static/sprites/lain/lain_talk_frames_2.ktx2", import.meta.url).href;
 import { extract_frame } from "./util";
 import { Texture } from "./textures";
 import { BootScene, update_boot_scene } from "./boot";
@@ -281,10 +282,55 @@ export type TextureDimensions = {
 };
 
 const TEXTURE_LOADER = new THREE.TextureLoader();
+const KTX2_LOADER = new KTX2Loader();
+// Path where the basis transcoder (if used) will be served from.
+KTX2_LOADER.setTranscoderPath("/basis/");
+
 const LOADED_TEXTURES: THREE.Texture[] = [];
 
+function copyTextureProperties(src: THREE.Texture, dst: THREE.Texture) {
+    dst.image = (src as any).image;
+    dst.format = src.format;
+    dst.type = src.type;
+    dst.encoding = src.encoding;
+    dst.wrapS = src.wrapS;
+    dst.wrapT = src.wrapT;
+    dst.magFilter = src.magFilter;
+    dst.minFilter = src.minFilter;
+    dst.generateMipmaps = src.generateMipmaps;
+    dst.needsUpdate = true;
+}
+
 export function load_texture(img: string): THREE.Texture {
+    // quick extension check
+    const lower = img.split("?")[0].toLowerCase();
+    if (lower.endsWith(".ktx2")) {
+        // return a placeholder texture synchronously so callers can use it immediately
+        const placeholder = new THREE.Texture();
+
+        // load KTX2 asynchronously and copy properties onto the placeholder
+        KTX2_LOADER.loadAsync(img)
+            .then((ktxTexture) => {
+                copyTextureProperties(ktxTexture, placeholder);
+            })
+            .catch((err) => {
+                console.warn(`failed to load ktx2 texture "${img}", falling back:`, err);
+            });
+
+        return placeholder;
+    }
+
     return TEXTURE_LOADER.load(img);
+}
+
+// async loader helper that picks the appropriate loader by extension
+export async function loadTextureAsync(img: string): Promise<THREE.Texture> {
+    const lower = img.split("?")[0].toLowerCase();
+    if (lower.endsWith(".ktx2")) {
+        return await KTX2_LOADER.loadAsync(img);
+    }
+
+    return await TEXTURE_LOADER.loadAsync(img);
 }
 
 export function get_texture(texture: Texture): THREE.Texture {
@@ -565,12 +611,19 @@ export class Engine {
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.domElement.id = "main-canvas";
         document.getElementById("game-container")!.appendChild(this.renderer.domElement);
-
         if (this.is_debug) {
             this.controls = new OrbitControls(this.camera, this.renderer.domElement);
             this.controls.target.set(0, 0, -1);
         } else {
             this.controls = null;
+        }
+
+        // initialize KTX2 transcoder support detection for this renderer
+        try {
+            KTX2_LOADER.detectSupport(this.renderer);
+        } catch (err) {
+            // not fatal; continue without KTX2 support if detection fails
+            console.warn("KTX2Loader.detectSupport failed:", err);
         }
 
         this.game_state = get_saved_state().saved_state;
@@ -708,8 +761,18 @@ export class Engine {
 
 export async function engine_create(): Promise<Engine> {
     const is_debug = import.meta.env.DEV;
+    // Ensure KTX2Loader has renderer support detected before any KTX2.loadAsync calls.
+    try {
+        const tmpRenderer = new THREE.WebGLRenderer({ alpha: true });
+        KTX2_LOADER.detectSupport(tmpRenderer);
+        try {
+            tmpRenderer.dispose();
+        } catch {}
+    } catch (err) {
+        console.warn("KTX2Loader.detectSupport during engine_create failed:", err);
+    }
 
-    const atlas = await TEXTURE_LOADER.loadAsync(sprite_atlas);
+    const atlas = await loadTextureAsync(sprite_atlas);
     atlas.magFilter = THREE.NearestFilter;
     atlas.minFilter = THREE.NearestFilter;
 
@@ -743,7 +806,7 @@ export async function engine_create(): Promise<Engine> {
     const frames_per_atlas = frames_per_row * frames_per_col;
 
     LAPK_ATLASES_TO_LOAD.forEach(async (spritesheet, index) => {
-        TEXTURE_LOADER.loadAsync(spritesheet).then((spritesheet_texture) => {
+        loadTextureAsync(spritesheet).then((spritesheet_texture) => {
             for (let r = 0; r < frames_per_row; r++) {
                 for (let c = 0; c < frames_per_col; c++) {
                     const frame_texture = extract_frame(
@@ -766,7 +829,36 @@ export async function engine_create(): Promise<Engine> {
     });
 
     LAPK_TALK_ATLASES_TO_LOAD.forEach(async (spritesheet, index) => {
-        TEXTURE_LOADER.loadAsync(spritesheet).then((spritesheet_texture) => {
+        (async () => {
+            let spritesheet_texture: THREE.Texture;
+
+            try {
+                // If the asset has a .ktx2 extension, prefer KTX2 loader
+                const lower = (spritesheet as string).split("?")[0].toLowerCase();
+                if (lower.endsWith(".ktx2")) {
+                    spritesheet_texture = await KTX2_LOADER.loadAsync(spritesheet as string);
+                } else {
+                    spritesheet_texture = await TEXTURE_LOADER.loadAsync(spritesheet as string);
+                }
+            } catch (err) {
+                // Improve diagnostics: check whether the resource exists and report status
+                console.warn("KTX2 load failed for", spritesheet, err);
+                try {
+                    const resp = await fetch(spritesheet as string, { method: "HEAD" });
+                    console.warn(`HEAD ${spritesheet} -> ${resp.status} ${resp.statusText}`);
+                } catch (headErr) {
+                    console.warn("HEAD request failed for ktx2 asset:", headErr);
+                }
+
+                // fallback to PNG loader if KTX2 failed or wasn't used
+                try {
+                    spritesheet_texture = await TEXTURE_LOADER.loadAsync(spritesheet as string);
+                } catch (err2) {
+                    console.warn("failed to load talk atlas (png fallback):", spritesheet, err2);
+                    return;
+                }
+            }
+
             for (let r = 0; r < frames_per_row; r++) {
                 for (let c = 0; c < frames_per_col; c++) {
                     const frame_texture = extract_frame(
@@ -785,7 +877,7 @@ export async function engine_create(): Promise<Engine> {
             }
 
             LOADED_LAPK_TALK_ATLASES.push(spritesheet_texture.clone());
-        });
+        })();
     });
 
     // preload audio
