@@ -302,13 +302,9 @@ function copyTextureProperties(src: THREE.Texture, dst: THREE.Texture) {
 }
 
 export function load_texture(img: string): THREE.Texture {
-    // quick extension check
     const lower = img.split("?")[0].toLowerCase();
     if (lower.endsWith(".ktx2")) {
-        // return a placeholder texture synchronously so callers can use it immediately
         const placeholder = new THREE.Texture();
-
-        // load KTX2 asynchronously and copy properties onto the placeholder
         KTX2_LOADER.loadAsync(img)
             .then((ktxTexture) => {
                 copyTextureProperties(ktxTexture, placeholder);
@@ -323,7 +319,6 @@ export function load_texture(img: string): THREE.Texture {
     return TEXTURE_LOADER.load(img);
 }
 
-// async loader helper that picks the appropriate loader by extension
 export async function loadTextureAsync(img: string): Promise<THREE.Texture> {
     const lower = img.split("?")[0].toLowerCase();
     if (lower.endsWith(".ktx2")) {
@@ -618,11 +613,10 @@ export class Engine {
             this.controls = null;
         }
 
-        // initialize KTX2 transcoder support detection for this renderer
         try {
             KTX2_LOADER.detectSupport(this.renderer);
         } catch (err) {
-            // not fatal; continue without KTX2 support if detection fails
+            // continue without KTX2 support if detection fails
             console.warn("KTX2Loader.detectSupport failed:", err);
         }
 
@@ -761,7 +755,6 @@ export class Engine {
 
 export async function engine_create(): Promise<Engine> {
     const is_debug = import.meta.env.DEV;
-    // Ensure KTX2Loader has renderer support detected before any KTX2.loadAsync calls.
     try {
         const tmpRenderer = new THREE.WebGLRenderer({ alpha: true });
         KTX2_LOADER.detectSupport(tmpRenderer);
@@ -833,7 +826,6 @@ export async function engine_create(): Promise<Engine> {
             let spritesheet_texture: THREE.Texture;
 
             try {
-                // If the asset has a .ktx2 extension, prefer KTX2 loader
                 const lower = (spritesheet as string).split("?")[0].toLowerCase();
                 if (lower.endsWith(".ktx2")) {
                     spritesheet_texture = await KTX2_LOADER.loadAsync(spritesheet as string);
@@ -841,7 +833,6 @@ export async function engine_create(): Promise<Engine> {
                     spritesheet_texture = await TEXTURE_LOADER.loadAsync(spritesheet as string);
                 }
             } catch (err) {
-                // Improve diagnostics: check whether the resource exists and report status
                 console.warn("KTX2 load failed for", spritesheet, err);
                 try {
                     const resp = await fetch(spritesheet as string, { method: "HEAD" });
